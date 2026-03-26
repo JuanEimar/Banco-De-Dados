@@ -1,0 +1,24 @@
+import mysql.connector
+
+conexao = mysql.connector.connect()
+import mysql.connector
+
+conexao = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="root",
+    database="SIMP_DBB"
+)
+
+print("Conectado com sucesso!")
+
+def menu():
+    print("\n===== SISTEMA DE MONITORAMENTO =====")
+    print("1 - Cadastrar máquina")
+    print("2 - Cadastrar sensor")
+    print("3 - Cadastrar operador")
+    print("4 - Registrar leitura")
+    print("5 - Listar máquinas")
+    print("6 - Sair")
+
+menu()
