@@ -1,0 +1,113 @@
+CREATE DATABASE SIMP_DBB;
+
+USE SIMP_DBB;
+
+CREATE TABLE maquinas (
+    id_maquina INT AUTO_INCREMENT PRIMARY KEY,
+    nome_maquina VARCHAR(100) NOT NULL,
+    descricao VARCHAR(200)
+);
+
+CREATE TABLE sensores (
+    id_sensor INT AUTO_INCREMENT PRIMARY KEY,
+    id_maquina INT,
+    tipo_sensor VARCHAR(50),
+    unidade_medida VARCHAR(20),
+
+    FOREIGN KEY (id_maquina)
+    REFERENCES maquinas(id_maquina)
+);
+
+CREATE TABLE operadores (
+    id_operador INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    turno VARCHAR(20)
+);
+
+CREATE TABLE leituras (
+    id_leitura INT AUTO_INCREMENT PRIMARY KEY,
+    id_sensor INT,
+    valor DECIMAL(5,2),
+    data_leitura DATETIME,
+
+    FOREIGN KEY (id_sensor)
+    REFERENCES sensores(id_sensor)
+);
+
+CREATE TABLE alertas (
+    id_alerta INT AUTO_INCREMENT PRIMARY KEY,
+    id_leitura INT,
+    nivel_alerta VARCHAR(20),
+    mensagem VARCHAR(200),
+    data_alerta DATETIME,
+
+    FOREIGN KEY (id_leitura)
+    REFERENCES leituras(id_leitura)
+);
+
+CREATE TABLE manutencoes (
+    id_manutencao INT AUTO_INCREMENT PRIMARY KEY,
+    id_maquina INT,
+    id_operador INT,
+    descricao VARCHAR(200),
+    data_manutencao DATETIME,
+
+    FOREIGN KEY (id_maquina)
+    REFERENCES maquinas(id_maquina),
+
+    FOREIGN KEY (id_operador)
+    REFERENCES operadores(id_operador)
+);
+
+USE SIMP_DBB;
+
+INSERT INTO maquinas (nome_maquina, descricao)
+VALUES ('Prensa Hidraulica', 'Maquina usada para prensagem');
+
+INSERT INTO maquinas (nome_maquina, descricao)
+VALUES ('Torno CNC', 'Maquina de usinagem automatizada');
+
+INSERT INTO maquinas (nome_maquina, descricao)
+VALUES ('Esteira Industrial', 'Sistema de transporte de materiais');
+
+INSERT INTO sensores (id_maquina, tipo_sensor, unidade_medida)
+VALUES (1, 'Temperatura', '°C');
+
+INSERT INTO sensores (id_maquina, tipo_sensor, unidade_medida)
+VALUES (2, 'Temperatura', '°C');
+
+INSERT INTO sensores (id_maquina, tipo_sensor, unidade_medida)
+VALUES (3, 'Temperatura', '°C');
+
+INSERT INTO operadores (nome, turno)
+VALUES ('Carlos Silva', 'Manha');
+
+INSERT INTO operadores (nome, turno)
+VALUES ('Ana Souza', 'Tarde');
+
+INSERT INTO operadores (nome, turno)
+VALUES ('Marcos Lima', 'Noite');
+
+INSERT INTO leituras (id_sensor, valor, data_leitura)
+VALUES (1, 65.0, NOW());
+
+INSERT INTO leituras (id_sensor, valor, data_leitura)
+VALUES (1, 75.0, NOW());
+
+INSERT INTO leituras (id_sensor, valor, data_leitura)
+VALUES (2, 92.0, NOW());
+
+INSERT INTO leituras (id_sensor, valor, data_leitura)
+VALUES (3, 68.5, NOW());
+
+INSERT INTO alertas (id_leitura, nivel_alerta, mensagem, data_alerta)
+VALUES (2, 'ALERTA', 'Temperatura entre 71°C e 90°C', NOW());
+
+INSERT INTO alertas (id_leitura, nivel_alerta, mensagem, data_alerta)
+VALUES (3, 'CRITICO', 'Temperatura acima de 90°C', NOW());
+
+INSERT INTO manutencoes (id_maquina, id_operador, descricao, data_manutencao)
+VALUES (1, 1, 'Troca de filtro', NOW());
+
+INSERT INTO manutencoes (id_maquina, id_operador, descricao, data_manutencao)
+VALUES (2, 2, 'Revisao geral da maquina', NOW());
